@@ -1,4 +1,4 @@
-import { signupUserService, loginUserService } from "../service/userService.js";
+import { signupUserService, loginUserService, findAllUsersService, findAllEmployeesService, updateEmployeeByIdService, deleteEmployeeByIdService } from "../service/userService.js";
 
 export async function signup(req, res) {
     try {
@@ -53,3 +53,57 @@ export async function login(req, res) {
         });
     }
 }
+
+export async function findAllUsers(req, res) {
+    try {
+        const users = await findAllUsersService("user");
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("findAllUser Controller Error", error);
+        throw error;
+    }
+}
+
+export async function findAllEmployees(req, res) {
+    try {
+        const users = await findAllEmployeesService("employee");
+        res.status(200).json(users);
+    } catch (error) {
+        console.error("findAllUser Controller Error", error);
+        throw error;
+    }
+}
+
+export async function updateEmployeeById(req, res) {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+        const updatedEmployee = await updateEmployeeByIdService(id, updatedData);
+        res.status(200).json({
+            success:true,
+            message: "Employee data updated successfully",
+            data: updatedEmployee
+        });
+    } catch (error) {
+        console.error("updateEmployeeById Controller Error", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+export async function deleteEmployeeById(req, res) {
+    try {
+        const { id } = req.params;
+        const deletedUser = await deleteEmployeeByIdService(id);
+        res.status(200).json({
+            success: true,
+            message: "user deleted successfully",
+            data: deletedUser
+        });
+    } catch (error) {
+        console.error("deleteEmployeeById Controller Error", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+

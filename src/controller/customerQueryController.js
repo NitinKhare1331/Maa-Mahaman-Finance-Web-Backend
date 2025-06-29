@@ -1,4 +1,4 @@
-import { createCustomerQueryService } from "../service/customerQueryService.js";
+import { createCustomerQueryService, findAllQueriesService } from "../service/customerQueryService.js";
 
 export async function customerQuery(req, res) {
     try {
@@ -23,5 +23,15 @@ export async function customerQuery(req, res) {
             success: false,
             message: "Internal Server Error"
         });
+    }
+}
+
+export async function findAllQueries(req, res) {
+    try {
+        const query = await findAllQueriesService();
+        res.status(200).json(query);
+    } catch (error) {
+        console.error("findAllQueriesController Error", error);
+        throw error;
     }
 }

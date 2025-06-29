@@ -1,9 +1,13 @@
 import express from 'express';
-import { signup, login } from '../../controller/userController.js';
+import { signup, login, findAllUsers, findAllEmployees, updateEmployeeById, deleteEmployeeById } from '../../controller/userController.js';
 
 const router = express.Router();
 
 router.post('/signup', signup);
 router.post('/login', login);
+router.get('/getUsers', findAllUsers);
+router.get('/getEmployees', findAllEmployees);
+router.put('/updateEmployeeData/:id', updateEmployeeById);
+router.delete('/deleteEmployeeData/:id', deleteEmployeeById);
 
 export default router;

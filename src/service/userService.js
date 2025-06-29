@@ -1,5 +1,5 @@
 import { generateJwtToken } from "../config/jwtConfig.js";
-import { createUser, findUserByEmail } from "../repository/userRepository.js";
+import { createUser, findUserByEmail, findAllUsers, findAllEmployees, updateEmployeeById, deleteEmployeeById } from "../repository/userRepository.js";
 import bcrypt from "bcrypt";
 
 export const signupUserService = async (user) => {
@@ -64,3 +64,43 @@ export const checkIfUserExists = async (email) => {
         throw error;
     }
 }
+
+export const findAllUsersService = async (role) => {
+    try {
+        const user = await findAllUsers(role);
+        return user;
+    } catch (error) {
+        console.log("findAllUserService error");
+        throw error;
+    }
+}
+
+export const findAllEmployeesService = async (role) => {
+    try {
+        const user = await findAllEmployees(role);
+        return user;
+    } catch (error) {
+        console.log("findAllUserService error");
+        throw error;
+    }
+}
+
+export const updateEmployeeByIdService = async (id, updatedData) => {
+    try {
+        const updated = await updateEmployeeById(id, updatedData);
+        return updated;
+    } catch (error) {
+        console.log("updateEmployeeByIdService error", error);
+        throw error;
+    }
+};
+
+export const deleteEmployeeByIdService = async (id) => {
+    try {
+        const deleted = await deleteEmployeeById(id);
+        return deleted;
+    } catch (error) {
+        console.log("deleteEmployeeByIdService error", error);
+        throw error;
+    }
+};
