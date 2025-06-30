@@ -1,4 +1,4 @@
-import { signupUserService, loginUserService, findAllUsersService, findAllEmployeesService, updateEmployeeByIdService, deleteEmployeeByIdService } from "../service/userService.js";
+import { signupUserService, loginUserService, findAllUsersService, findAllEmployeesService, updateEmployeeByIdService, deleteEmployeeByIdService, createEmployeeService } from "../service/userService.js";
 
 export async function signup(req, res) {
     try {
@@ -102,6 +102,33 @@ export async function deleteEmployeeById(req, res) {
     } catch (error) {
         console.error("deleteEmployeeById Controller Error", error);
         res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+
+export async function createEmployee(req, res) {
+    try {
+        const employee = await createEmployeeService(req.body);
+
+        return res.status(201).json({
+            success: true,
+            message: "Employee created successfully",
+            data: employee
+        })
+    } catch (error) {
+        console.log(error);
+
+        if(error.status) {
+            return res.status(error.status).json({
+                success: false,
+                message: error.message
+            })
+        }
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
     }
 }
 

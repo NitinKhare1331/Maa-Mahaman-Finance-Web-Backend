@@ -104,3 +104,27 @@ export const deleteEmployeeByIdService = async (id) => {
         throw error;
     }
 };
+
+
+export const createEmployeeService = async (employee) => {
+    try {
+        let role = "employee";
+
+        if(employee.email.endsWith('@employee.com')){
+            role = "employee";
+        }
+
+        const newEmployee = await createUser({ ...employee, role });
+
+        return newEmployee;
+    } catch (error) {
+        if(error.name === "MongoServerError" && error.code === 11000) {
+            throw {
+                status: 400,
+                message: "User with the same email or username already exists"
+            }
+        }
+        console.log("createEmployeeService error");
+        throw error;
+    }
+}
